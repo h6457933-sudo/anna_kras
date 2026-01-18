@@ -14,7 +14,7 @@
             --secondary: #757575;
             --accent: #b5a48b;
             --sidebar-width: 280px;
-            --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * {
@@ -101,11 +101,11 @@
         /* Основной блок */
         main {
             margin-left: var(--sidebar-width);
-            padding: 0 80px;
+            padding: 0; /* Убираем боковые отступы для эффекта полной ширины */
         }
 
         section {
-            padding: 120px 0;
+            padding: 100px 80px;
             opacity: 0;
             transform: translateY(40px);
             transition: var(--transition);
@@ -146,43 +146,66 @@
             font-weight: 300;
             font-size: 1.1rem;
             color: var(--secondary);
+            margin-bottom: 40px;
         }
 
-        /* Нестандартная сетка галереи (7 фото) */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 30px;
+        /* Галерея в один столбик */
+        .gallery-list {
+            display: flex;
+            flex-direction: column;
+            gap: 120px; /* Большой отступ между работами */
         }
 
-        .art-item {
-            position: relative;
+        .art-work {
+            width: 100%;
+            opacity: 0;
+            transform: translateY(60px);
+            transition: var(--transition);
+        }
+
+        .art-work.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .art-image-container {
+            width: 100%;
             background: #f9f9f9;
             overflow: hidden;
+            margin-bottom: 25px;
         }
 
-        .art-item img {
+        .art-image-container img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: auto;
             display: block;
-            filter: grayscale(15%);
+            filter: grayscale(10%);
             transition: 1.5s ease;
         }
 
-        .art-item:hover img {
-            transform: scale(1.05);
+        .art-work:hover img {
             filter: grayscale(0%);
         }
 
-        /* Позиционирование элементов сетки */
-        .item-1 { grid-column: 1 / 9; height: 650px; } 
-        .item-2 { grid-column: 9 / 13; height: 400px; align-self: end; }
-        .item-3 { grid-column: 2 / 7; height: 500px; margin-top: -60px; }
-        .item-4 { grid-column: 7 / 12; height: 450px; margin-top: 20px; }
-        .item-5 { grid-column: 1 / 6; height: 400px; }
-        .item-6 { grid-column: 6 / 10; height: 550px; margin-top: -100px; }
-        .item-7 { grid-column: 10 / 13; height: 350px; align-self: center; }
+        .work-info {
+            padding: 0 5px;
+            max-width: 800px;
+        }
+
+        .work-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .work-meta {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--secondary);
+            font-weight: 300;
+        }
 
         /* CV */
         .cv-grid {
@@ -255,26 +278,20 @@
             }
             main {
                 margin-left: 0;
-                padding: 0 30px;
             }
-            .gallery-grid {
-                display: flex;
-                flex-direction: column;
-            }
-            .art-item {
-                height: 500px !important;
-                margin: 0 !important;
+            section {
+                padding: 80px 30px;
             }
             .cv-grid {
                 grid-template-columns: 1fr;
             }
             .quote { font-size: 2.5rem; }
+            .contact-link { font-size: 2rem; }
         }
 
-        /* Заглушка для фото (если файлы не в папке) */
         .img-placeholder {
             width: 100%;
-            height: 100%;
+            height: 500px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -282,7 +299,6 @@
             color: #aaa;
             font-size: 0.8rem;
             text-align: center;
-            padding: 20px;
         }
     </style>
 </head>
@@ -318,49 +334,99 @@
                 <p class="desc">
                     Мое творчество исследует эмоциональную память, текучесть момента и глубокую связь между внешними стихиями и внутренними состояниями человека.
                 </p>
-                 <img src="photo_5404781730440351680_y.jpg" alt="Анна Крас" style="margin-top: 30px; max-width: 100%; height: auto;">
+                <img src="photo_5404781730440351680_y.jpg" alt="Анна Крас" style="max-width: 100%; height: auto; border: 1px solid #eee;">
             </div>
         </section>
 
         <!-- Gallery -->
         <section id="gallery">
-            <span class="section-title">Избранные работы</span>
-            <div class="gallery-grid">
-                <!-- Картина 1: Яхты на море -->
-                <div class="art-item item-1">
-                    <img src="Яхты на море. Анна Крас_60х80 см_х.м-2.jpg" alt="Яхты на море" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="img-placeholder" style="display:none;">Яхты на море. Анна Крас</div>
+            <span class="section-title">Работы</span>
+            <div class="gallery-list">
+                
+                <!-- Картина 1 -->
+                <div class="art-work reveal-work">
+                    <div class="art-image-container">
+                        <img src="Яхты на море. Анна Крас_60х80 см_х.м-2.jpg" alt="Яхты на море" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="img-placeholder" style="display:none;">Яхты на море. Анна Крас</div>
+                    </div>
+                    <div class="work-info">
+                        <h3 class="work-title">Яхты на море</h3>
+                        <p class="work-meta">60х80 см / Холст, масло / 2025</p>
+                    </div>
                 </div>
+
                 <!-- Картина 2 -->
-                <div class="art-item item-2">
-                    <img src="photo_5404781730440351986_y(1).jpg" alt="Painting 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="img-placeholder" style="display:none;">photo_5404781730440351986_y.jpg</div>
+                <div class="art-work reveal-work">
+                    <div class="art-image-container">
+                        <img src="photo_5404781730440351986_y.jpg" alt="Работа 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="img-placeholder" style="display:none;">Картина: photo_5404781730440351986_y</div>
+                    </div>
+                    <div class="work-info">
+                        <h3 class="work-title">Без названия I</h3>
+                        <p class="work-meta">70х90 см / Холст, масло / 2024</p>
+                    </div>
                 </div>
+
                 <!-- Картина 3 -->
-                <div class="art-item item-3">
-                    <img src="photo_5314334151589102658_y.jpg" alt="Painting 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="img-placeholder" style="display:none;">photo_5314334151589102658_y.jpg</div>
+                <div class="art-work reveal-work">
+                    <div class="art-image-container">
+                        <img src="photo_5314334151589102658_y.jpg" alt="Работа 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="img-placeholder" style="display:none;">Картина: photo_5314334151589102658_y</div>
+                    </div>
+                    <div class="work-info">
+                        <h3 class="work-title">Отражение времени</h3>
+                        <p class="work-meta">50х70 см / Холст, масло / 2024</p>
+                    </div>
                 </div>
+
                 <!-- Картина 4 -->
-                <div class="art-item item-4">
-                    <img src="Image_202601180916.jpg" alt="Painting 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="img-placeholder" style="display:none;">Image_202601180916.jpg</div>
+                <div class="art-work reveal-work">
+                    <div class="art-image-container">
+                        <img src="Image_202601180916.jpg" alt="Работа 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="img-placeholder" style="display:none;">Картина: Image_202601180916</div>
+                    </div>
+                    <div class="work-info">
+                        <h3 class="work-title">Глубина</h3>
+                        <p class="work-meta">100х80 см / Холст, масло / 2025</p>
+                    </div>
                 </div>
+
                 <!-- Картина 5 -->
-                <div class="art-item item-5">
-                    <img src="photo_5404781730440351915_y.jpg" alt="Painting 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="img-placeholder" style="display:none;">photo_5404781730440351915_y.jpg</div>
+                <div class="art-work reveal-work">
+                    <div class="art-image-container">
+                        <img src="photo_5404781730440351915_y.jpg" alt="Работа 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="img-placeholder" style="display:none;">Картина: photo_5404781730440351915_y</div>
+                    </div>
+                    <div class="work-info">
+                        <h3 class="work-title">Течение II</h3>
+                        <p class="work-meta">60х60 см / Холст, масло / 2024</p>
+                    </div>
                 </div>
+
                 <!-- Картина 6 -->
-                <div class="art-item item-6">
-                    <img src="IMG_3347.jpg" alt="Painting 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="img-placeholder" style="display:none;">IMG_3347.jpg</div>
+                <div class="art-work reveal-work">
+                    <div class="art-image-container">
+                        <img src="IMG_3347.jpg" alt="Работа 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="img-placeholder" style="display:none;">Картина: IMG_3347</div>
+                    </div>
+                    <div class="work-info">
+                        <h3 class="work-title">Пространство мысли</h3>
+                        <p class="work-meta">80х90 см / Холст, масло / 2025</p>
+                    </div>
                 </div>
+
                 <!-- Картина 7 -->
-                <div class="art-item item-7">
-                    <img src="nhtt.jpg" alt="Painting 7" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="img-placeholder" style="display:none;">nhtt.jpg</div>
+                <div class="art-work reveal-work">
+                    <div class="art-image-container">
+                        <img src="nhtt.jpg" alt="Работа 7" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="img-placeholder" style="display:none;">Картина: nhtt</div>
+                    </div>
+                    <div class="work-info">
+                        <h3 class="work-title">Берег</h3>
+                        <p class="work-meta">40х50 см / Холст, масло / 2024</p>
+                    </div>
                 </div>
+
             </div>
         </section>
 
@@ -415,10 +481,10 @@
     </main>
 
     <script>
-        // Скрипт плавного появления элементов
+        // Скрипт плавного появления элементов и картин
         const observerOptions = {
             threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            rootMargin: '0px 0px -100px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
@@ -429,8 +495,9 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section);
+        // Наблюдаем за секциями и каждой работой в галерее отдельно
+        document.querySelectorAll('section, .reveal-work').forEach(el => {
+            observer.observe(el);
         });
 
         // Плавный скролл при клике на меню
@@ -449,5 +516,4 @@
     </script>
 </body>
 </html>
-
 
